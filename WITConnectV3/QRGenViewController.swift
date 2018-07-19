@@ -19,6 +19,8 @@ class QRGenViewController: UIViewController {
             print(userFName)
             print(userLName)
             self.SignUpuserNameTextField.text = userFName
+            let image = self.generateQRCode(from: userLName)
+            self.imageView.image = image
         }
     }
     var ref: DatabaseReference!
@@ -33,22 +35,15 @@ class QRGenViewController: UIViewController {
         let QRCodeViewController = storyboard?.instantiateViewController(withIdentifier: "QRCodeViewController") as! QRCodeViewController
         present(QRCodeViewController, animated:  true, completion: nil)
     }
-        override func viewDidLoad() {
-            fetchUserInfo {
-                var blockID = ""
-                
-                for AppUser in self.appUser {
-                    blockID = blockID + AppUser.Fname
-                    print(AppUser.Fname)
-                }
-            let message = "0x1038e29e9c5f88185db68e06efe4f892962036ce"
-            let image = self.generateQRCode(from: message)
-            self.imageView.image = image
-        }
-        super.viewDidLoad()
+    override func viewDidLoad() {
         ref = Database.database().reference()
-        
-    }
+        fetchUserInfo()
+        //let image = self.generateQRCode(from: message)
+        //self.imageView.image = image
+        super.viewDidLoad()
+        }
+    
+    
     func generateQRCode(from string: String) -> UIImage? {
         let data = string.data(using: String.Encoding.isoLatin1)
         
@@ -62,7 +57,7 @@ class QRGenViewController: UIViewController {
         }
         return nil
     }
-    func fetchUserInfo(completed: @escaping () -> ()) {
+    func fetchUserInfo() {
         let userId = Auth.auth().currentUser?.uid
         ref.child("users").child(userId!).observeSingleEvent(of: .value) {(snapshot) in
             let data = snapshot.value as? NSDictionary
