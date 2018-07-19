@@ -63,14 +63,16 @@ class SignUpViewController: UIViewController , UITextFieldDelegate {
             guard let fname = SignFirstNameTextField.text else { return }
             guard let lname = SignUpLastNameTextField.text else {return}
             guard let witID = SignUpWITIDTextField.text else {return}
-            
+                    let blockChainID = ""
+                    
             let userData: [String: Any] = [
-                "FirstName" : fname,
-                "Email" : email,
-                "LastName" : lname,
-                "WITNumeber" : witID
-                
-            ]
+                        "FirstName" : fname,
+                        "Email" : email,
+                        "LastName" : lname,
+                        "WITNumeber" : witID,
+                        "BlockChainAcc" : blockChainID
+                        
+                ]
             
             
             Auth.auth().createUserAndRetrieveData(withEmail: email, password: password) { (result, error) in if error == nil {

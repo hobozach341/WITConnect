@@ -14,4 +14,5 @@ struct AppUser {
     var LastName: String?
     var uid: String?
     var WitNumber: String?
+    var BlockChainAcc : String?
 }
