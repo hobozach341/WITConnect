@@ -66,7 +66,9 @@ class QRGenViewController: UIViewController {
             let lname = data?["LastName"] as? String
             let witID = data?["WITNumber"] as? String
             let blockChainID = data?["BlockChainAcc"] as? String
-            self.appUser = AppUser(Email: email, FirstName: fname, LastName: lname, uid: userId, WitNumber: witID, BlockChainAcc : blockChainID)
+            let transferAmount = data?["TransferAmount"] as? String
+            let doorStatus = data?["DoorStatus"] as? String
+            self.appUser = AppUser(Email: email, FirstName: fname, LastName: lname, uid: userId, WitNumber: witID, BlockChainAcc: blockChainID, TransferAmount: transferAmount, DoorStatus: doorStatus)
         }
     }
 }

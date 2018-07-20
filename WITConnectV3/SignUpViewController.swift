@@ -64,13 +64,18 @@ class SignUpViewController: UIViewController , UITextFieldDelegate {
             guard let lname = SignUpLastNameTextField.text else {return}
             guard let witID = SignUpWITIDTextField.text else {return}
                     let blockChainID = ""
+                    let doorStatus = ""
+                    let transferAmount = ""
+                    
                     
             let userData: [String: Any] = [
                         "FirstName" : fname,
                         "Email" : email,
                         "LastName" : lname,
                         "WITNumeber" : witID,
-                        "BlockChainAcc" : blockChainID
+                        "BlockChainAcc" : blockChainID,
+                        "DoorStatus" : doorStatus,
+                        "TransferAmount" : transferAmount
                         
                 ]
             

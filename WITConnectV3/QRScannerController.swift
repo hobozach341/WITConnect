@@ -151,6 +151,9 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                     if metadataObject.stringValue != nil {
                         captureSession.stopRunning()
                         displayBarCodeResult(code: metadataObject.stringValue!)
+                        let qrScanned = ""
+                        let qrCode = metadataObject.stringValue! + qrScanned
+                        print(qrCode)
                         return
                     }
                 }
@@ -158,24 +161,28 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         }
         func displayBarCodeResult(code: String) {
             let alertPrompt = UIAlertController(title: "QR code detected", message: code, preferredStyle: .alert)
-            if let url = URL(string: code) {
-                let confirmAction = UIAlertAction(title: "Unlock door", style: UIAlertActionStyle.default, handler: { action in
-                    let key = self.ref.child("scanned").childByAutoId().key
-                    let scanned = ["qrCode": url
-                        
-                            ]
-                    let childUpdate = ["/\(key)": scanned]
-                    self.ref.updateChildValues(childUpdate)
-                  
-            })
-                
-                alertPrompt.addAction(confirmAction)
+            
+            alertPrompt.addTextField { (textField) in
+                textField.placeholder = "Enter Transfer Value"
+                textField.keyboardType = .numberPad
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
-                self.setupCapture()
-            })
-            alertPrompt.addAction(cancelAction)
-            present(alertPrompt, animated: true, completion: nil)
-        }
-
+        
+            let unlock = UIAlertAction(title: "Unlock Door", style: .default) { (action) in
+                print("Unlocking Door")
+                //Send qr code of door to firebase, read door status as boolean to compare which option occurs, if true unlock door if false access  denied
+            }
+            let transfer = UIAlertAction(title: "Transfer", style: .default) { (action) in
+                print("Transfering Currency")
+                print(alertPrompt.textFields?.first?.text! ?? 0)
+                //take entered amount and send to firebase
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                print("Cancelled")
+            }
+           alertPrompt.addAction(unlock)
+           alertPrompt.addAction(transfer)
+           alertPrompt.addAction(cancel)
+           present(alertPrompt, animated: true, completion: nil)
+    }
 }
+
