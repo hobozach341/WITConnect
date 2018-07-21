@@ -66,6 +66,7 @@ class SignUpViewController: UIViewController , UITextFieldDelegate {
                     let blockChainID = ""
                     let doorStatus = ""
                     let transferAmount = ""
+                    let qrCodeMetaData = ""
                     
                     
             let userData: [String: Any] = [
@@ -75,7 +76,8 @@ class SignUpViewController: UIViewController , UITextFieldDelegate {
                         "WITNumeber" : witID,
                         "BlockChainAcc" : blockChainID,
                         "DoorStatus" : doorStatus,
-                        "TransferAmount" : transferAmount
+                        "TransferAmount" : transferAmount,
+                        "QRCodeMetaData" : qrCodeMetaData
                         
                 ]
             

@@ -17,4 +17,5 @@ struct AppUser {
     var BlockChainAcc : String?
     var TransferAmount : String?
     var DoorStatus : String?
+    var QRCodeMetaData : String?
 }
