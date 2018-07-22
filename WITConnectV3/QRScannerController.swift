@@ -181,25 +181,13 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                 self.ref.child("users").child(userID!).observeSingleEvent(of: .value) {(snapshot) in
                     let data = snapshot.value as? NSDictionary
                     let doorStatus = data?["DoorStatus"] as? String
-                    let DoorStatusAlert =  DoorStat(DoorStatus: doorStatus, uid: userID)
-                
-//Check if DoorStatus is != nil, if so display unlocking door else display you don't have acess
-                if DoorStatusAlert != nil {
-                    let alertPrompt = UIAlertController(title: "Unlocking door", message: nil, preferredStyle: .alert)
-                    self.present(alertPrompt, animated: true, completion: {
+                    let DoorStatusAlert =  DoorStat(DoorStatus: doorStatus)
+                    print(DoorStatusAlert)
+                    let alertPrompt = UIAlertController(title: "Unlocking door", message: DoorStatusAlert as Any as? String, preferredStyle: .alert)
+                        self.present(alertPrompt, animated: true, completion: {
                         self.setupCapture()
-                        
-                    })
-                }
-                else {
-                    let alertPrompt = UIAlertController(title: "You don't have Access", message: nil, preferredStyle: .alert)
-                    let confirmAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) -> Void in
-                    })
-                    alertPrompt.addAction(confirmAction)
-                    self.present(alertPrompt, animated: true, completion: {
-                        self.setupCapture()
-                    })
-                }
+                            })
+                    
             }
         }
             let transfer = UIAlertAction(title: "Transfer", style: .default) { (action) in
@@ -223,5 +211,3 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
            present(alertPrompt, animated: true, completion: nil)
     }
 }
-
-

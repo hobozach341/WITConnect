@@ -10,6 +10,5 @@ import Foundation
 
 struct DoorStat {
     var DoorStatus : String?
-    var uid: String?
     
 }
