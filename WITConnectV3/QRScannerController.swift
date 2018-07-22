@@ -151,32 +151,70 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                     if metadataObject.stringValue != nil {
                         captureSession.stopRunning()
                         displayBarCodeResult(code: metadataObject.stringValue!)
-                        let qrScanned = ""
-                        let qrCode = metadataObject.stringValue! + qrScanned
-                        print(qrCode)
                         return
                     }
                 }
             }
         }
-        func displayBarCodeResult(code: String) {
-            let alertPrompt = UIAlertController(title: "QR code detected", message: code, preferredStyle: .alert)
+        func displayBarCodeResult(code: Any) {
+            let alertPrompt = UIAlertController(title: "QR code detected", message: code as? String, preferredStyle: .alert)
             
             alertPrompt.addTextField { (textField) in
                 textField.placeholder = "Enter Transfer Value"
                 textField.keyboardType = .numberPad
+                let values = ["transferAmount": textField.text ?? "0"]
+                let userId = Auth.auth().currentUser?.uid
+                self.ref.child("users").child(userId!).updateChildValues(["TransferAmount": values])
+                self.ref.updateChildValues(values)
             }
         
             let unlock = UIAlertAction(title: "Unlock Door", style: .default) { (action) in
                 print("Unlocking Door")
-                //Send qr code of door to firebase, read door status as boolean to compare which option occurs, if true unlock door if false access  denied
+                let qrdataunlock = code
+                let userId = Auth.auth().currentUser?.uid
+                
+                self.ref.child("users").child(userId!).updateChildValues(["QRCodeMetaData": qrdataunlock])
+//Send qr code of door to firebase
+                self.ref.updateChildValues(qrdataunlock as! [AnyHashable : Any])
+//retrieve DoorStatus
+                let userID = Auth.auth().currentUser?.uid
+                self.ref.child("users").child(userID!).observeSingleEvent(of: .value) {(snapshot) in
+                    let data = snapshot.value as? NSDictionary
+                    let doorStatus = data?["DoorStatus"] as? String
+                    let DoorStatusAlert =  DoorStat(DoorStatus: doorStatus, uid: userID)
+                
+//Check if DoorStatus is != nil, if so display unlocking door else display you don't have acess
+                if DoorStatusAlert != nil {
+                    let alertPrompt = UIAlertController(title: "Unlocking door", message: nil, preferredStyle: .alert)
+                    self.present(alertPrompt, animated: true, completion: {
+                        self.setupCapture()
+                        
+                    })
+                }
+                else {
+                    let alertPrompt = UIAlertController(title: "You don't have Access", message: nil, preferredStyle: .alert)
+                    let confirmAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+                    })
+                    alertPrompt.addAction(confirmAction)
+                    self.present(alertPrompt, animated: true, completion: {
+                        self.setupCapture()
+                    })
+                }
             }
+        }
             let transfer = UIAlertAction(title: "Transfer", style: .default) { (action) in
+                let qrdatatransfer = code
+                let userId = Auth.auth().currentUser?.uid
+                self.ref.child("users").child(userId!).updateChildValues(["QRCodeMetaData": qrdatatransfer])
+                self.ref.updateChildValues(qrdatatransfer as! [AnyHashable : Any])
+                self.setupCapture()
                 print("Transfering Currency")
                 print(alertPrompt.textFields?.first?.text! ?? 0)
+                
                 //take entered amount and send to firebase
             }
             let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                self.setupCapture()
                 print("Cancelled")
             }
            alertPrompt.addAction(unlock)
@@ -185,4 +223,5 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
            present(alertPrompt, animated: true, completion: nil)
     }
 }
+
 

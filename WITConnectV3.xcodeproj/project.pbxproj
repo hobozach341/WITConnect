@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2421837F20E710C700BD0EEE /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421837E20E710C700BD0EEE /* QRCodeViewController.swift */; };
 		2421838120E713FB00BD0EEE /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421838020E713FB00BD0EEE /* QRScannerController.swift */; };
+		24576EFD2103E91F0024D84B /* DoorStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24576EFC2103E91F0024D84B /* DoorStat.swift */; };
 		24B4EC0B20E6C4CC000C2DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4EC0A20E6C4CC000C2DDA /* AppDelegate.swift */; };
 		24B4EC0D20E6C4CC000C2DDA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4EC0C20E6C4CC000C2DDA /* ViewController.swift */; };
 		24B4EC1020E6C4CC000C2DDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24B4EC0E20E6C4CC000C2DDA /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		2421837E20E710C700BD0EEE /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		2421838020E713FB00BD0EEE /* QRScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
+		24576EFC2103E91F0024D84B /* DoorStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorStat.swift; sourceTree = "<group>"; };
 		24B4EC0720E6C4CC000C2DDA /* WITConnectV3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WITConnectV3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24B4EC0A20E6C4CC000C2DDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24B4EC0C20E6C4CC000C2DDA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				24B4EC3C20E6CD93000C2DDA /* SignUpViewController.swift */,
 				24B4EC3E20E6D7CC000C2DDA /* QRGenViewController.swift */,
 				24C21C9120F5068400F96DEB /* AppUser.swift */,
+				24576EFC2103E91F0024D84B /* DoorStat.swift */,
 				2421837E20E710C700BD0EEE /* QRCodeViewController.swift */,
 				2421838020E713FB00BD0EEE /* QRScannerController.swift */,
 				24B4EC0E20E6C4CC000C2DDA /* Main.storyboard */,
@@ -370,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24C21C9220F5068400F96DEB /* AppUser.swift in Sources */,
+				24576EFD2103E91F0024D84B /* DoorStat.swift in Sources */,
 				24B4EC3F20E6D7CC000C2DDA /* QRGenViewController.swift in Sources */,
 				24B4EC3D20E6CD93000C2DDA /* SignUpViewController.swift in Sources */,
 				24B4EC0D20E6C4CC000C2DDA /* ViewController.swift in Sources */,
