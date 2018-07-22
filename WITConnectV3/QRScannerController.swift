@@ -156,26 +156,26 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                 }
             }
         }
-        func displayBarCodeResult(code: Any) {
-            let alertPrompt = UIAlertController(title: "QR code detected", message: code as? String, preferredStyle: .alert)
+        func displayBarCodeResult(code: String) {
+            let alertPrompt = UIAlertController(title: "QR code detected", message: code, preferredStyle: .alert)
             
             alertPrompt.addTextField { (textField) in
-                textField.placeholder = "Enter Transfer Value"
+                textField.placeholder = "Transfer WITCoin"
                 textField.keyboardType = .numberPad
-                let values = ["transferAmount": textField.text ?? "0"]
+                let values = ["transferAmount": textField.text ?? "10"]
                 let userId = Auth.auth().currentUser?.uid
                 self.ref.child("users").child(userId!).updateChildValues(["TransferAmount": values])
                 self.ref.updateChildValues(values)
             }
         
             let unlock = UIAlertAction(title: "Unlock Door", style: .default) { (action) in
-                print("Unlocking Door")
-                let qrdataunlock = code
+                print("Attempting to Unlock")
+                let qrdataunlock = ["qrCodeMetaData": code]
                 let userId = Auth.auth().currentUser?.uid
                 
                 self.ref.child("users").child(userId!).updateChildValues(["QRCodeMetaData": qrdataunlock])
 //Send qr code of door to firebase
-                self.ref.updateChildValues(qrdataunlock as! [AnyHashable : Any])
+                self.ref.updateChildValues(qrdataunlock)
 //retrieve DoorStatus
                 let userID = Auth.auth().currentUser?.uid
                 self.ref.child("users").child(userID!).observeSingleEvent(of: .value) {(snapshot) in
@@ -191,14 +191,17 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             }
         }
             let transfer = UIAlertAction(title: "Transfer", style: .default) { (action) in
-                let qrdatatransfer = code
+                let qrdatatransfer = ["qrCodeMetaData": code]
                 let userId = Auth.auth().currentUser?.uid
                 self.ref.child("users").child(userId!).updateChildValues(["QRCodeMetaData": qrdatatransfer])
-                self.ref.updateChildValues(qrdatatransfer as! [AnyHashable : Any])
+                self.ref.updateChildValues(qrdatatransfer)
                 self.setupCapture()
                 print("Transfering Currency")
                 print(alertPrompt.textFields?.first?.text! ?? 0)
-                
+                let values = ["transferAmount": alertPrompt.textFields?.first?.text! ?? "100"]
+                self.ref.child("users").child(userId!).updateChildValues(["TransferAmount": values])
+                self.ref.updateChildValues(values)
+                self.setupCapture()
                 //take entered amount and send to firebase
             }
             let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
